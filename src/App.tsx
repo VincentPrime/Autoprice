@@ -93,8 +93,8 @@ function App() {
     const unitsProduced = parseFloat(formData.unitsProduced) || 0;
     const markupPercentage = parseFloat(formData.markupPercentage) || 0;
 
-    const fixedCostPerUnit = unitsProduced > 0 ? fixedCosts / unitsProduced : 0;
-    const costPerUnit = fixedCostPerUnit + variableCostPerUnit;
+    const totalCost = fixedCosts + variableCostPerUnit;
+    const costPerUnit = unitsProduced > 0 ? totalCost / unitsProduced : 0;
     let sellingPrice = costPerUnit + (costPerUnit * (markupPercentage / 100));
     
     // Add VAT if enabled
@@ -110,7 +110,7 @@ function App() {
       variableCostPerUnit,
       unitsProduced,
       markupPercentage,
-      fixedCostPerUnit: Math.round(fixedCostPerUnit * 100) / 100,
+      fixedCostPerUnit: Math.round(totalCost * 100) / 100,
       costPerUnit: Math.round(costPerUnit * 100) / 100,
       sellingPrice: Math.round(sellingPrice * 100) / 100,
       profitPerUnit: Math.round(profitPerUnit * 100) / 100,
@@ -159,8 +159,8 @@ function App() {
 
     addLine('Total Fixed Costs:', calc.fixedCosts);
     addLine('Units Produced:', calc.unitsProduced);
-    addLine('Fixed Cost Per Unit:', calc.fixedCostPerUnit);
-    addLine('Variable Cost Per Unit:', calc.variableCostPerUnit);
+    addLine('Total Cost:', calc.fixedCostPerUnit);
+    addLine('Total variable Costs:', calc.variableCostPerUnit);
 
     y += 2;
     doc.setDrawColor(200, 200, 200);
@@ -359,7 +359,7 @@ function App() {
             AutoPrice
           </p>
           <p className={`${isDarkMode ? 'text-slate-400' : 'text-slate-600'} text-sm`}>
-            Fast Pricing, Zero Hassle!
+            Fast Pricing, Zero Hussle!
           </p>
         </header>
 
@@ -746,46 +746,76 @@ function App() {
 
               <div className="space-y-6">
                 <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
-                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Fixed Costs</h3>
+                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Fixed Cost</h3>
                   <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                    Expenses that remain constant regardless of production volume. Examples include rent, salaries, insurance, and equipment depreciation.
+                    Fixed cost is a business expense that does not change with the level of production or sales. Common examples include rent, insurance, interest, depreciation, and property taxes (Hayes, 2025).
                   </p>
                 </div>
 
                 <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
-                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Variable Cost Per Unit</h3>
+                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Variable Cost</h3>
                   <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                    Costs that change with the number of units produced. This includes raw materials, packaging, and direct labor costs per item.
+                    Variable cost is a cost that changes depending on the level of production or sales. It increases when more goods are produced and decreases when production is reduced (Kenton, 2026).
                   </p>
                 </div>
 
                 <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
-                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Markup Percentage</h3>
+                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Unit Produced</h3>
                   <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                    The percentage added to the cost to determine the selling price. A 50% markup means you add 50% of the cost to get your selling price.
+                    Units produced represent the total number of items manufactured within a specific time frame (Fiveable, 2025).
+                  </p>
+                </div>
+
+                <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
+                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Cost Per Unit (CPU)</h3>
+                  <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                   Cost per unit is the average total cost spent to produce, store, deliver, or sell a single unit of a product or service. It combines both fixed costs (like rent or salaries) and variable costs (like materials or labor) divided by the total number of units produced (Flora, 2025).
+                  </p>
+                </div>
+
+                <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
+                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Mark-up Percentage</h3>
+                  <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    Markup percentage is the amount added to the cost of goods sold (COGS) to determine the selling price (Coehle, 2024)
+                  </p>
+                </div>
+
+                <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
+                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Selling Price</h3>
+                  <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    The selling price is what a customer pays for a product or service. It covers the product’s cost plus a markup that ensures expenses are paid and profit is made, keeping the business financially sustainable (Averkamp, 2025)
+                  </p>
+                </div>
+
+                <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
+                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Profit Per Unit</h3>
+                  <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    Profit per unit is the earnings gained from selling a single product. It is calculated by subtracting the cost per unit from the selling price per unit. This measure helps businesses see how much they actually profit from each item sold (Ng, 2026).
+                  </p>
+                </div>
+
+
+                <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
+                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>VAT (Value Added Tax)</h3>
+                  <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    Value Added Tax (VAT) in the Philippines is a 12% tax on goods, services, and properties. It is charged at each stage of production or distribution. Businesses earning over PHP 3,000,000 annually must register for VAT (Bernardo, 2025).
+                  </p>
+                </div>
+
+                <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
+                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Non VAT</h3>
+                  <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
+                    Non-VAT, or Percentage Tax, applies to businesses earning under PHP 3,000,000 a year. It’s a simpler option for businesses that want to avoid complex VAT filing (Bernardo, 2025).
                   </p>
                 </div>
 
                 <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
                   <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Cost-Plus Pricing</h3>
                   <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                    A pricing strategy where you calculate the total cost per unit and add a markup percentage to determine the selling price. Formula: Selling Price = Cost Per Unit × (1 + Markup %)
+                    Cost-plus pricing is a straightforward strategy in which a fixed markup is added to a product’s production cost to determine its selling price (Majka, 2024).
                   </p>
                 </div>
 
-                <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
-                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>VAT (Value Added Tax)</h3>
-                  <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                    A consumption tax of 12% (in the Philippines) added to the selling price. When enabled, the final price includes this tax.
-                  </p>
-                </div>
-
-                <div className={`p-4 rounded-xl ${isDarkMode ? 'bg-[#001529]' : 'bg-slate-50'}`}>
-                  <h3 className={`font-bold text-lg mb-2 ${isDarkMode ? 'text-[#FFD700]' : 'text-[#003366]'}`}>Break-Even Point</h3>
-                  <p className={`${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                    The point where total revenue equals total costs. At this point, you're neither making a profit nor a loss.
-                  </p>
-                </div>
               </div>
             </div>
           )}
@@ -876,7 +906,7 @@ function App() {
                           <span className={`${isDarkMode ? 'text-slate-200' : 'text-slate-900'} font-mono`}>₱{calc.fixedCosts.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Variable/Unit:</span>
+                          <span className={isDarkMode ? 'text-slate-400' : 'text-slate-600'}>Variable/Total:</span>
                           <span className={`${isDarkMode ? 'text-slate-200' : 'text-slate-900'} font-mono`}>₱{calc.variableCostPerUnit.toFixed(2)}</span>
                         </div>
                         <div className="flex justify-between">
