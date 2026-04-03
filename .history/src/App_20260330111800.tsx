@@ -110,7 +110,7 @@ function App() {
       variableCostPerUnit,
       unitsProduced,
       markupPercentage,
-      fixedCostPerUnit: Math.round((fixedCosts / unitsProduced) * 100) / 100,
+      fixedCostPerUnit: Math.round(totalCost * 100) / 100,
       costPerUnit: Math.round(costPerUnit * 100) / 100,
       sellingPrice: Math.round(sellingPrice * 100) / 100,
       profitPerUnit: Math.round(profitPerUnit * 100) / 100,
